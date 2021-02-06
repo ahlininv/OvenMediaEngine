@@ -2,7 +2,8 @@ LOCAL_PATH := $(call get_local_path)
 
 PROJECT_C_INCLUDES := \
 	projects \
-	projects/third_party
+	projects/third_party \
+	/usr/local/opt/openssl@1.1/include
 
 PROJECT_CXX_INCLUDES := \
 	$(PROJECT_C_INCLUDES)
