@@ -3,6 +3,8 @@
 #include <base/ovlibrary/ovlibrary.h>
 #include "rtx_rtp_packet.h"
 
+#include <unordered_map>
+
 // WebRTC-Native-Code uses 9600 value
 #define DEFAULT_MAX_HISTORY_CAPACITY	1500
 // Stored RTP packet is only valid for 3 second after being created
