@@ -53,7 +53,7 @@ namespace ov
 
 		static uint64_t GetElapsedMiliSecondsFromNow(std::chrono::system_clock::time_point time)
 		{
-			auto current = std::chrono::high_resolution_clock::now();
+			std::chrono::system_clock::time_point current = std::chrono::system_clock::now();
 			return std::chrono::duration_cast<std::chrono::milliseconds>(current - time).count();
 		}
 	};
