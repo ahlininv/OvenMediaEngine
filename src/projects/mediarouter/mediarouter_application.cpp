@@ -68,7 +68,7 @@ bool MediaRouteApplication::Start()
 		try
 		{
 			auto inbound_thread = std::thread(&MediaRouteApplication::InboundWorkerThread, this, worker_id);
-			pthread_setname_np(inbound_thread.native_handle(), "InboundWorker");
+			pthread_setname_np("InboundWorker");
 			_inbound_threads.push_back(std::move(inbound_thread));
 		}
 		catch (const std::system_error &e)
@@ -84,7 +84,7 @@ bool MediaRouteApplication::Start()
 		try
 		{
 			auto outbound_thread = std::thread(&MediaRouteApplication::OutboundWorkerThread, this, worker_id);
-			pthread_setname_np(outbound_thread.native_handle(), "OutboundWorker");
+			pthread_setname_np("OutboundWorker");
 			_outbound_threads.push_back(std::move(outbound_thread));
 		}
 		catch (const std::system_error &e)

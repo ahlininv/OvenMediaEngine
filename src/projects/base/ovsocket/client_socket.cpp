@@ -11,6 +11,13 @@
 #include "server_socket.h"
 #include "socket_private.h"
 
+#if !defined(SOL_TCP) && defined(IPPROTO_TCP)
+#define SOL_TCP IPPROTO_TCP
+#endif
+#if !defined(TCP_KEEPIDLE) && defined(TCP_KEEPALIVE)
+#define TCP_KEEPIDLE TCP_KEEPALIVE
+#endif
+
 // If no packet is sent during this time, the connection is disconnected
 #define CLIENT_SOCKET_SEND_TIMEOUT (60 * 1000)
 
@@ -83,7 +90,7 @@ namespace ov
 		// To keep the shared_ptr from being released while DispatchThread() is called
 		auto that = GetSharedPtrAs<ClientSocket>();
 		_send_thread = std::thread(std::bind(&ClientSocket::DispatchThread, that));
-		pthread_setname_np(_send_thread.native_handle(), "ClientSocket");
+		pthread_setname_np("ClientSocket");
 		_send_thread.detach();
 
 		return true;

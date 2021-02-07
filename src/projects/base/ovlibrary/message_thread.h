@@ -36,7 +36,7 @@ namespace ov
 			_observer = observer;
 			_run_thread = true;
 			_thread = std::thread(&MessageThread::Postman, this);
-			pthread_setname_np(_thread.native_handle(), "MessageThread");
+			pthread_setname_np("MessageThread");
 
 			return true;
 		}

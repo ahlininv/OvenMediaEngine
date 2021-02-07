@@ -38,7 +38,7 @@ bool FilePublisher::Start()
 {
 	_stop_thread_flag = false;
 	_worker_thread = std::thread(&FilePublisher::WorkerThread, this);
-	pthread_setname_np(_worker_thread.native_handle(), "FilePubWorker");
+	pthread_setname_np("FilePubWorker");
 
 	return Publisher::Start();
 }

@@ -11,7 +11,7 @@
 #include "./ovlibrary_private.h"
 
 #include <unistd.h>
-#include <thread>
+#include <pthread.h>
 
 namespace ov
 {
@@ -64,7 +64,7 @@ namespace ov
 
 		_stop = false;
 		_thread = std::thread(std::bind(&DelayQueue::DispatchThreadProc, this));
-		pthread_setname_np(_thread.native_handle(), "DelayQueue");
+		pthread_setname_np("DelayQueue");
 
 		return true;
 	}

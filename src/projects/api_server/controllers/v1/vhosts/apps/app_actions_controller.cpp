@@ -42,7 +42,7 @@ namespace api
 			if (publisher == nullptr)
 			{
 				return HttpError::CreateError(HttpStatusCode::NotFound, "Could not find publisher: [%s/%s]",
-											  vhost->GetName().CStr(), app->GetName().GetAppName());
+											  vhost->GetName().CStr(), app->GetName().GetAppName().CStr());
 			}
 
 			Json::Value response;
@@ -72,17 +72,17 @@ namespace api
 			if (publisher == nullptr)
 			{
 				return HttpError::CreateError(HttpStatusCode::NotFound, "Could not find publisher: [%s/%s]",
-											  vhost->GetName().CStr(), app->GetName().GetAppName());
+											  vhost->GetName().CStr(), app->GetName().GetAppName().CStr());
 			}
 
 			auto record = conv::RecordFromJson(request_body);
 			if (record == nullptr)
 			{
 				return HttpError::CreateError(HttpStatusCode::BadRequest, "Could not parse json context: [%s/%s]",
-											  vhost->GetName().CStr(), app->GetName().GetAppName());
+											  vhost->GetName().CStr(), app->GetName().GetAppName().CStr());
 			}
 			record->SetVhost(vhost->GetName().CStr());
-			record->SetApplication(app->GetName().GetAppName());
+			record->SetApplication(app->GetName().GetAppName().CStr());
 
 
 			auto error = publisher->RecordStart(app->GetName(), record);
@@ -104,17 +104,17 @@ namespace api
 			if (publisher == nullptr)
 			{
 				return HttpError::CreateError(HttpStatusCode::NotFound, "Could not find publisher: [%s/%s]",
-											  vhost->GetName().CStr(), app->GetName().GetAppName());
+											  vhost->GetName().CStr(), app->GetName().GetAppName().CStr());
 			}
 
 			auto record = conv::RecordFromJson(request_body);
 			if (record == nullptr)
 			{
 				return HttpError::CreateError(HttpStatusCode::BadRequest, "Could not parse json context: [%s/%s]",
-											  vhost->GetName().CStr(), app->GetName().GetAppName());
+											  vhost->GetName().CStr(), app->GetName().GetAppName().CStr());
 			}
 			record->SetVhost(vhost->GetName().CStr());
-			record->SetApplication(app->GetName().GetAppName());
+			record->SetApplication(app->GetName().GetAppName().CStr());
 
 
 			auto error = publisher->RecordStop(app->GetName(), record);
@@ -134,7 +134,7 @@ namespace api
 			if (publisher == nullptr)
 			{
 				return HttpError::CreateError(HttpStatusCode::NotFound, "Could not find publisher: [%s/%s]",
-											  vhost->GetName().CStr(), app->GetName().GetAppName());
+											  vhost->GetName().CStr(), app->GetName().GetAppName().CStr());
 			}
 
 			Json::Value response;
@@ -162,17 +162,17 @@ namespace api
 			if (publisher == nullptr)
 			{
 				return HttpError::CreateError(HttpStatusCode::NotFound, "Could not find publisher: [%s/%s]",
-											  vhost->GetName().CStr(), app->GetName().GetAppName());
+											  vhost->GetName().CStr(), app->GetName().GetAppName().CStr());
 			}
 
 			auto push = conv::PushFromJson(request_body);
 			if (push == nullptr)
 			{
 				return HttpError::CreateError(HttpStatusCode::BadRequest, "Could not parse json context: [%s/%s]",
-											  vhost->GetName().CStr(), app->GetName().GetAppName());
+											  vhost->GetName().CStr(), app->GetName().GetAppName().CStr());
 			}
 			push->SetVhost(vhost->GetName().CStr());
-			push->SetApplication(app->GetName().GetAppName());
+			push->SetApplication(app->GetName().GetAppName().CStr());
 
 			// logtd("%s", push->GetInfoString().CStr());
 
@@ -192,17 +192,17 @@ namespace api
 			if (publisher == nullptr)
 			{
 				return HttpError::CreateError(HttpStatusCode::NotFound, "Could not find publisher: [%s/%s]",
-											  vhost->GetName().CStr(), app->GetName().GetAppName());
+											  vhost->GetName().CStr(), app->GetName().GetAppName().CStr());
 			}
 
 			auto push = conv::PushFromJson(request_body);
 			if (push == nullptr)
 			{
 				return HttpError::CreateError(HttpStatusCode::BadRequest, "Could not parse json context: [%s/%s]",
-											  vhost->GetName().CStr(), app->GetName().GetAppName());
+											  vhost->GetName().CStr(), app->GetName().GetAppName().CStr());
 			}
 			push->SetVhost(vhost->GetName().CStr());
-			push->SetApplication(app->GetName().GetAppName());
+			push->SetApplication(app->GetName().GetAppName().CStr());
 
 			// logte("%s", push->GetInfoString().CStr());
 
@@ -221,7 +221,7 @@ namespace api
 														   const std::shared_ptr<mon::ApplicationMetrics> &app)
 		{
 			logte("Called OnGetDummyAction. invoke [%s/%s]",
-				  vhost->GetName().CStr(), app->GetName().GetAppName());
+				  vhost->GetName().CStr(), app->GetName().GetAppName().CStr());
 
 			return app->GetConfig().ToJson();
 		}
