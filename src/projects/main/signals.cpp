@@ -10,7 +10,7 @@
 
 #include <base/ovlibrary/ovlibrary.h>
 #include <config/config_manager.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <orchestrator/orchestrator.h>
 #include <signal.h>
 
@@ -133,7 +133,7 @@ static void AbortHandler(int signum, siginfo_t *si, void *unused)
 		auto tid = ov::Platform::GetThreadId();
 
 		ostream << "***** Crash dump *****" << std::endl;
-		ostream << "OvenMediaEngine v" OME_VERSION OME_GIT_VERSION_EXTRA << BUILD_MODE << " received signal " << signum << " (" << GetSignalName(signum) << ")" << std::endl;
+		ostream << "OvenMediaEngine v" OME_VERSION << BUILD_MODE << " received signal " << signum << " (" << GetSignalName(signum) << ")" << std::endl;
 		ostream << "- Time: " << time_buffer << ", pid: " << pid << ", tid: " << tid << std::endl;
 		ostream << "- Stack trace" << std::endl;
 
@@ -163,7 +163,7 @@ static void AbortHandler(int signum, siginfo_t *si, void *unused)
 
 static void User1Handler(int signum, siginfo_t *si, void *unused)
 {
-	logtc("Trim result: %d", malloc_trim(0));
+	// logtc("Trim result: %d", malloc_trim(0));
 }
 
 static void ReloadHandler(int signum, siginfo_t *si, void *unused)
