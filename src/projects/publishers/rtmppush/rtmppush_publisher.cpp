@@ -31,7 +31,7 @@ bool RtmpPushPublisher::Start()
 {
 	_stop_thread_flag = false;
 	_worker_thread = std::thread(&RtmpPushPublisher::WorkerThread, this);
-	pthread_setname_np(, "RtmpPubWorker");
+	pthread_setname_np("RtmpPubWorker");
 
 	return Publisher::Start();
 }
@@ -83,13 +83,11 @@ void RtmpPushPublisher::StartSession(std::shared_ptr<RtmpPushSession> session)
 		break;
 		// State of Recording
 		case pub::Session::SessionState::Started:
-			[[fallthrough]];
 		// State of Stopping
 		case pub::Session::SessionState::Stopping:
-			[[fallthrough]];
 		// State of Record failed
 		case pub::Session::SessionState::Error:
-			[[fallthrough]];
+			;
 	}
 
 	auto next_session_state = session->GetState();
@@ -109,13 +107,10 @@ void RtmpPushPublisher::StopSession(std::shared_ptr<RtmpPushSession> session)
 			session->Stop();
 			break;
 		case pub::Session::SessionState::Ready:
-			[[fallthrough]];
 		case pub::Session::SessionState::Stopping:
-			[[fallthrough]];
 		case pub::Session::SessionState::Stopped:
-			[[fallthrough]];
 		case pub::Session::SessionState::Error:
-			[[fallthrough]];
+			;
 	}
 
 	auto next_session_state = session->GetState();
