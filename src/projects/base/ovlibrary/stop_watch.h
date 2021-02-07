@@ -26,8 +26,8 @@ namespace ov
 		String _tag;
 
 		bool _is_valid { false };
-		std::chrono::high_resolution_clock::time_point _start;
-		std::chrono::high_resolution_clock::time_point _last;
-		std::chrono::high_resolution_clock::time_point _stop;
+		std::chrono::system_clock::time_point _start;
+		std::chrono::system_clock::time_point _last;
+		std::chrono::system_clock::time_point _stop;
 	};
 }

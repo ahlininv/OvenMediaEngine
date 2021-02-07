@@ -14,13 +14,13 @@ namespace ov
 	void StopWatch::Start()
 	{
 		_is_valid = true;
-		_start = std::chrono::high_resolution_clock::now();
+		_start = std::chrono::system_clock::now();
 		_last = _start;
 	}
 
 	bool StopWatch::Update()
 	{
-		_last = std::chrono::high_resolution_clock::now();
+		_last = std::chrono::system_clock::now();
 		return _is_valid;
 	}
 
@@ -28,7 +28,7 @@ namespace ov
 	{
 		if (_is_valid)
 		{
-			auto current = std::chrono::high_resolution_clock::now();
+			auto current = std::chrono::system_clock::now();
 
 			return std::chrono::duration_cast<std::chrono::milliseconds>(current - _last).count();
 		}
@@ -45,7 +45,7 @@ namespace ov
 	{
 		if (_is_valid)
 		{
-			auto current = std::chrono::high_resolution_clock::now();
+			auto current = std::chrono::system_clock::now();
 
 			return std::chrono::duration_cast<std::chrono::milliseconds>(current - _start).count();
 		}
