@@ -16,6 +16,11 @@
 #include "config_error.h"
 #include "item.h"
 
+#if defined(__APPLE__)
+#   include <netdb.h>
+#   define HOST_NAME_MAX MAXHOSTNAMELEN
+#endif
+
 #define OV_LOG_TAG "Config.DataSource"
 
 namespace cfg
