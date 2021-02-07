@@ -137,7 +137,7 @@ bool TranscodeDecoder::Configure(std::shared_ptr<TranscodeContext> context)
 		_kill_flag = false;
 
 		_thread_work = std::thread(&TranscodeDecoder::ThreadDecode, this);
-		pthread_setname_np(_thread_work.native_handle(), "Decoder");
+		pthread_setname_np("Decoder");
 	}
 	catch (const std::system_error &e)
 	{

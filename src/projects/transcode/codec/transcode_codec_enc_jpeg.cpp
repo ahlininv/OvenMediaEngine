@@ -65,7 +65,7 @@ bool OvenCodecImplAvcodecEncJpeg::Configure(std::shared_ptr<TranscodeContext> co
 		_kill_flag = false;
 
 		_thread_work = std::thread(&OvenCodecImplAvcodecEncJpeg::ThreadEncode, this);
-		pthread_setname_np(_thread_work.native_handle(), "EncJPEG");
+		pthread_setname_np("EncJPEG");
 	}
 	catch (const std::system_error &e)
 	{

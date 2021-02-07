@@ -818,7 +818,7 @@ int32_t TranscodeStream::CreateEncoders(MediaTrackId track_id)
 			}
 			break;
 			default: {
-				logte("Unsuported media type. map_key:%s/%d", k.first, k.second);
+				logte("Unsuported media type. map_key:%s/%d", k.first.CStr(), k.second);
 			}
 			break;
 		}

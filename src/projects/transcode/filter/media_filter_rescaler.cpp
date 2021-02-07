@@ -168,7 +168,7 @@ bool MediaFilterRescaler::Configure(const std::shared_ptr<MediaTrack> &input_med
 		_kill_flag = false;
 
 		_thread_work = std::thread(&MediaFilterRescaler::ThreadFilter, this);
-		pthread_setname_np(_thread_work.native_handle(), "Rescaler");
+		pthread_setname_np("Rescaler");
 	}
 	catch (const std::system_error &e)
 	{

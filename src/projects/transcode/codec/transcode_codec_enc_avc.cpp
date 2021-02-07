@@ -103,7 +103,7 @@ bool OvenCodecImplAvcodecEncAVC::Configure(std::shared_ptr<TranscodeContext> con
 		_kill_flag = false;
 
 		_thread_work = std::thread(&OvenCodecImplAvcodecEncAVC::ThreadEncode, this);
-		pthread_setname_np(_thread_work.native_handle(), "EncAVC");
+		pthread_setname_np("EncAVC");
 	}
 	catch (const std::system_error &e)
 	{
