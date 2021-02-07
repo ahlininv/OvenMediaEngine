@@ -312,7 +312,7 @@ namespace pub
 		}
 
 		// Probably this doesn't happen
-		logte("Could not find VirtualHost (%s)", vhost_name);
+		logte("Could not find VirtualHost (%s)", vhost_name.CStr());
 		return CheckSignatureResult::Error;
 	}
 
@@ -366,7 +366,7 @@ namespace pub
 		}
 
 		// Probably this doesn't happen
-		logte("Could not find VirtualHost (%s)", vhost_name);
+		logte("Could not find VirtualHost (%s)", vhost_name.CStr());
 		return CheckSignatureResult::Error;
 	}
 
