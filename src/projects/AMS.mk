@@ -3,7 +3,8 @@ LOCAL_PATH := $(call get_local_path)
 PROJECT_C_INCLUDES := \
 	projects \
 	projects/third_party \
-	/usr/local/opt/openssl@1.1/include
+	/usr/local/opt/openssl@1.1/include \
+	/opt/ovenmediaengine/include
 
 PROJECT_CXX_INCLUDES := \
 	$(PROJECT_C_INCLUDES)
