@@ -85,7 +85,7 @@ namespace cfg
 			"%s"
 			"%s"
 			"%s",
-			child,
+			child.get(),
 			(value_type == ValueType::List) ? "std::vector<" : "", child->GetTypeName().CStr(), (value_type == ValueType::List) ? ">" : "", StringFromValueType(child->GetType()),
 			child->IsOptional() ? "Optional, " : "",
 			child->ResolvePath() ? "Path, " : "",
