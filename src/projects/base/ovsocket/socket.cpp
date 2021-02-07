@@ -33,6 +33,9 @@
 #	include <mutex>
 #	include <unordered_map>
 
+#   define SIOCOUTQ TIOCOUTQ
+#   define SIOCINQ FIONREAD
+
 /*
 	This is an experimental wrapper class for epoll functionality on macOS
  */
