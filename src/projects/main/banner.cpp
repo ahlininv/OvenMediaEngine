@@ -25,7 +25,7 @@ void PrintBanner()
 	static constexpr const char *BUILD_MODE = "";
 #endif	// DEBUG
 
-	logti("OvenMediaEngine v" OME_VERSION OME_GIT_VERSION_EXTRA "%s is started on [%s] (%s %s - %s, %s)", BUILD_MODE, uts.nodename, uts.sysname, uts.machine, uts.release, uts.version);
+	logti("OvenMediaEngine v" OME_VERSION "%s is started on [%s] (%s %s - %s, %s)", BUILD_MODE, uts.nodename, uts.sysname, uts.machine, uts.release, uts.version);
 
 	logti("With modules:");
 	logti("  FFmpeg %s", GetFFmpegVersion());
