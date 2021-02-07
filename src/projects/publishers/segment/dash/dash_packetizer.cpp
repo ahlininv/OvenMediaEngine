@@ -14,6 +14,7 @@
 #include <iomanip>
 #include <numeric>
 #include <sstream>
+#include <algorithm>
 
 #include "dash_define.h"
 #include "dash_private.h"
@@ -502,7 +503,7 @@ bool DashPacketizer::AppendAudioFrame(const std::shared_ptr<const MediaPacket> &
 		}
 
 		// Calculate a value that matches this formula: [duration_per_frame * position >= remained]
-		int64_t position = std::max(remained / duration_per_frame, 0L);
+		int64_t position = fmax(remained / duration_per_frame, 0L);
 		int64_t bytes_to_copy = 0L;
 
 		for (int64_t index = 0; index < position; index++)
