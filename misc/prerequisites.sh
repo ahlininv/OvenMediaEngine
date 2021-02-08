@@ -47,9 +47,9 @@ install_openssl()
     (DIR=${TEMP_PATH}/openssl && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
-    curl -sLf "${DOWNLOAD_URL}" | tar -xz --strip-components=1 && \
+    curl -Lf "${DOWNLOAD_URL}" | tar -xz --strip-components=1 && \
     ./config --prefix="${PREFIX}" --openssldir="${PREFIX}" -Wl,-rpath,"${PREFIX}/lib" shared no-idea no-mdc2 no-rc5 no-ec2m no-ecdh no-ecdsa no-async && \
-    make -j$(nproc) && \
+    make -j$(NCPU) && \
     sudo make install_sw && \
     rm -rf ${DIR} && \
     sudo rm -rf ${PREFIX}/bin) || fail_exit "openssl"
@@ -60,9 +60,9 @@ install_libsrtp()
     (DIR=${TEMP_PATH}/srtp && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
-    curl -sLf https://github.com/cisco/libsrtp/archive/v${SRTP_VERSION}.tar.gz | tar -xz --strip-components=1 && \
+    curl -Lf https://github.com/cisco/libsrtp/archive/v${SRTP_VERSION}.tar.gz | tar -xz --strip-components=1 && \
     ./configure --prefix="${PREFIX}" --enable-shared --disable-static --enable-openssl --with-openssl-dir="${PREFIX}" && \
-    make -j$(nproc) shared_library&& \
+    make -j$(NCPU) shared_library&& \
     sudo make install && \
     rm -rf ${DIR}) || fail_exit "srtp"
 }
@@ -72,9 +72,9 @@ install_libsrt()
     (DIR=${TEMP_PATH}/srt && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
-    curl -sLf https://github.com/Haivision/srt/archive/v${SRT_VERSION}.tar.gz | tar -xz --strip-components=1 && \
+    curl -Lf https://github.com/Haivision/srt/archive/v${SRT_VERSION}.tar.gz | tar -xz --strip-components=1 && \
     PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig:${PKG_CONFIG_PATH} ./configure --prefix="${PREFIX}" --enable-shared --disable-static && \
-    make -j$(nproc) && \
+    make -j$(NCPU) && \
     sudo make install && \
     rm -rf ${DIR} && \
     sudo rm -rf ${PREFIX}/bin) || fail_exit "srt"
@@ -85,10 +85,10 @@ install_libopus()
     (DIR=${TEMP_PATH}/opus && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
-    curl -sLf https://archive.mozilla.org/pub/opus/opus-${OPUS_VERSION}.tar.gz | tar -xz --strip-components=1 && \
+    curl -Lf https://archive.mozilla.org/pub/opus/opus-${OPUS_VERSION}.tar.gz | tar -xz --strip-components=1 && \
     autoreconf -fiv && \
     ./configure --prefix="${PREFIX}" --enable-shared --disable-static && \
-    make -j$(nproc) && \
+    make -j$(NCPU) && \
     sudo make install && \
     sudo rm -rf ${PREFIX}/share && \
     rm -rf ${DIR}) || fail_exit "opus"
@@ -99,9 +99,9 @@ install_libx264()
     (DIR=${TEMP_PATH}/x264 && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
-    curl -sLf https://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-${X264_VERSION}.tar.bz2 | tar -jx --strip-components=1 && \
+    curl -Lf https://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-${X264_VERSION}.tar.bz2 | tar -jx --strip-components=1 && \
 	./configure --prefix="${PREFIX}" --enable-shared --enable-pic --disable-cli && \
-    make -j$(nproc) && \
+    make -j$(NCPU) && \
     sudo make install && \
     rm -rf ${DIR}) || fail_exit "x264"
 }
@@ -111,10 +111,10 @@ install_libx265()
     (DIR=${TEMP_PATH}/x265 && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
-    curl -sLf  https://get.videolan.org/x265/x265_${X265_VERSION}.tar.gz | tar -xz --strip-components=1 && \
+    curl -Lf  https://get.videolan.org/x265/x265_${X265_VERSION}.tar.gz | tar -xz --strip-components=1 && \
     cd ${DIR}/build/linux && \
     cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DENABLE_SHARED:bool=on ../../source && \
-    make -j$(nproc) && \
+    make -j$(NCPU) && \
     sudo make install && \
     rm -rf ${DIR}) || fail_exit "x265"
 }
@@ -122,18 +122,18 @@ install_libx265()
 install_libvpx()
 {
     ADDITIONAL_FLAGS=
-    if [ "x${OSNAME}" == "xMac OS X" ]; then
+  if  [ "x${OSNAME}" == "xMac OS X" ] || ["x${OSNAME}" == "xmacOS" ]; then
         case $OSVERSION in
-            10.12.* | 10.13.* | 10.14.*  | 10.15.*) ADDITIONAL_FLAGS=--target=x86_64-darwin16-gcc;;
+            10.12.* | 10.13.* | 10.14.*  | 10.15.*  | 11.1.*) ADDITIONAL_FLAGS=--target=x86_64-darwin16-gcc;;
         esac
     fi
 
     (DIR=${TEMP_PATH}/vpx && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
-    curl -sLf https://codeload.github.com/webmproject/libvpx/tar.gz/v${VPX_VERSION} | tar -xz --strip-components=1 && \
+    curl -Lf https://codeload.github.com/webmproject/libvpx/tar.gz/v${VPX_VERSION} | tar -xz --strip-components=1 && \
     ./configure --prefix="${PREFIX}" --enable-vp8 --enable-pic --enable-shared --disable-static --disable-vp9 --disable-debug --disable-examples --disable-docs --disable-install-bins ${ADDITIONAL_FLAGS} && \
-    make -j$(nproc) && \
+    make -j$(NCPU) && \
     sudo make install && \
     rm -rf ${DIR}) || fail_exit "vpx"
 }
@@ -143,10 +143,10 @@ install_fdk_aac()
     (DIR=${TEMP_PATH}/aac && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
-    curl -sLf https://github.com/mstorsjo/fdk-aac/archive/v${FDKAAC_VERSION}.tar.gz | tar -xz --strip-components=1 && \
+    curl -Lf https://github.com/mstorsjo/fdk-aac/archive/v${FDKAAC_VERSION}.tar.gz | tar -xz --strip-components=1 && \
     autoreconf -fiv && \
     ./configure --prefix="${PREFIX}" --enable-shared --disable-static --datadir=/tmp/aac && \
-    make -j$(nproc) && \
+    make -j$(NCPU) && \
     sudo make install && \
     rm -rf ${DIR}) || fail_exit "fdk_aac"
 }
@@ -157,9 +157,9 @@ install_nasm()
 	(DIR=${TEMP_PATH}/nasm && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
-    curl -sLf http://www.nasm.us/pub/nasm/releasebuilds/${NASM_VERSION}/nasm-${NASM_VERSION}.tar.gz | tar -xz --strip-components=1 && \
+    curl -Lf http://www.nasm.us/pub/nasm/releasebuilds/${NASM_VERSION}/nasm-${NASM_VERSION}.tar.gz | tar -xz --strip-components=1 && \
     ./configure && \
-    make -j$(nproc) && \
+    make -j$(NCPU) && \
     sudo make install && \
     rm -rf ${DIR}) || fail_exit "nasm"
 }
@@ -174,7 +174,7 @@ install_ffmpeg()
     (DIR=${TEMP_PATH}/ffmpeg && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
-    curl -sLf https://github.com/AirenSoft/FFmpeg/archive/n${FFMPEG_VERSION}-ome.tar.gz | tar -xz --strip-components=1 && \
+    curl -Lf https://github.com/AirenSoft/FFmpeg/archive/n${FFMPEG_VERSION}-ome.tar.gz | tar -xz --strip-components=1 && \
     PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig:${PKG_CONFIG_PATH} ./configure \
     --prefix="${PREFIX}" \
     --enable-gpl \
@@ -196,7 +196,7 @@ install_ffmpeg()
     --enable-parser=aac,aac_latm,aac_fixed,h264,hevc \
     --enable-network --enable-protocol=tcp --enable-protocol=udp --enable-protocol=rtp,file,rtmp --enable-demuxer=rtsp --enable-muxer=mp4,webm,mpegts,flv,mpjpeg \
     --enable-filter=asetnsamples,aresample,aformat,channelmap,channelsplit,scale,transpose,fps,settb,asettb,format && \
-    make -j$(nproc) && \
+    make -j$(NCPU) && \
     sudo make install && \
     sudo rm -rf ${PREFIX}/share && \
     rm -rf ${DIR}) || fail_exit "ffmpeg"
@@ -208,9 +208,9 @@ install_jemalloc()
     (DIR=${TEMP_PATH}/jemalloc && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
-    curl -sLf https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2 | tar -jx --strip-components=1 && \
+    curl -Lf https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2 | tar -jx --strip-components=1 && \
     ./configure --prefix="${PREFIX}" && \
-    make -j$(nproc) && \
+    make -j$(NCPU) && \
     sudo make install_include install_lib && \
     rm -rf ${DIR}) || fail_exit "jemalloc"
 }
@@ -220,11 +220,11 @@ install_libpcre2()
     (DIR=${TEMP_PATH}/libpcre2 && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
-    curl -sLf https://ftp.pcre.org/pub/pcre/pcre2-${PCRE2_VERSION}.tar.gz | tar -xz --strip-components=1 && \
+    curl -Lf https://ftp.pcre.org/pub/pcre/pcre2-${PCRE2_VERSION}.tar.gz | tar -xz --strip-components=1 && \
     ./configure --prefix="${PREFIX}" \
     --disable-static \
 	--enable-jit=auto && \
-    make -j$(nproc) && \
+    make -j$(NCPU) && \
     sudo make install && \
     rm -rf ${DIR} && \
     sudo rm -rf ${PREFIX}/bin) || fail_exit "libpcre2"
@@ -252,7 +252,7 @@ install_base_macos()
 {
     BREW_PATH=$(which brew)
     if [ ! -x "$BREW_PATH" ] ; then
-        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || exit 1
+        /usr/bin/ruby -e "$(curl -fSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || exit 1
     fi
 
     # the default make on macOS does not work with these makefiles
@@ -267,7 +267,7 @@ install_ovenmediaengine()
     (DIR=${TEMP_PATH}/ome && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
-    curl -sLf https://github.com/AirenSoft/OvenMediaEngine/archive/${OME_VERSION}.tar.gz | tar -xz --strip-components=1 && \
+    curl -Lf https://github.com/AirenSoft/OvenMediaEngine/archive/${OME_VERSION}.tar.gz | tar -xz --strip-components=1 && \
     cd src && \
     make release && \
     sudo make install && \
@@ -333,7 +333,7 @@ elif  [ "${OSNAME}" == "CentOS" ]; then
 elif  [ "${OSNAME}" == "Fedora" ]; then
     check_version
     install_base_fedora
-elif  [ "${OSNAME}" == "Mac OS X" ]; then
+elif  [ "${OSNAME}" == "Mac OS X" ] || ["${OSNAME}" == "macOS" ]; then
     install_base_macos
     echo "mac"
 else
@@ -342,18 +342,44 @@ else
 fi
 
 
+
+
+echo "nasm start"
 install_nasm
+echo "nasm ok"
+echo "install_openssl ok"
 install_openssl
+echo "install_openssl ok"
+echo "install_libsrtp ok"
 install_libsrtp
+echo "install_libsrtp ok"
+echo "install_libsrt "
 install_libsrt
+echo "install_libsrt ok"
+echo "install_libopus"
 install_libopus
+echo "install_libopus ok"
+echo "install_libx264 "
 install_libx264
+echo "install_libx264 ok"
+echo "install_libx265 "
 install_libx265
+echo "install_libx265 ok"
+echo "install_libvpx "
 install_libvpx
+echo "install_libvpx ok"
+echo "install_fdk_aac "
 install_fdk_aac
+echo "install_fdk_aac ok"
+echo "install_ffmpeg "
 install_ffmpeg
+echo "install_ffmpeg ok"
+echo "install_jemalloc "
 install_jemalloc
+echo "install_jemalloc ok"
+echo "install_libpcre2"
 install_libpcre2
+echo "install_libpcre2 ok"
 
 echo ${OSNAME} ${OSVERSION}
 
