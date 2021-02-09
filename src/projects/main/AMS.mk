@@ -46,7 +46,7 @@ LOCAL_STATIC_LIBRARIES := \
 LOCAL_PREBUILT_LIBRARIES := \
 	libpugixml.a
 
-LOCAL_LDFLAGS := -lpthread
+LOCAL_LDFLAGS := -lpthread -L/opt/ovenmediaengine/lib -lsrt -lcrypto -lssl -lavcodec -lavfilter -lavformat -lavutil -lsrtp2 -lpcre -lopus -lpcre2-8
 
 ifeq ($(shell echo $${OSTYPE}),linux-musl) 
 # For alpine linux
