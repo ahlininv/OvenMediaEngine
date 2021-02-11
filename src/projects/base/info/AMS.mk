@@ -1,8 +1,4 @@
 LOCAL_PATH := $(call get_local_path)
-include $(DEFAULT_VARIABLES)
-
-LOCAL_TARGET := application
-
-$(call add_pkg_config,srt)
-
-include $(BUILD_STATIC_LIBRARY)
+$( eval mkdir -p $(LOCAL_PATH) )
+$( eval cmake -H $(LOCAL_PATH) -B $(LOCAL_PATH)/build )
+$( eval make -f $(LOCAL_PATH)/build )
