@@ -27,8 +27,8 @@ add_executable(${TARGET}
 
 target_include_directories(${TARGET}
         PRIVATE
-        ../../projects
-        ../../projects/third_party
+        ../projects
+        ../projects/third_party
         )
 
 set(ENV{PKG_CONFIG_PATH} /opt/ovenmediaengine/lib/pkgconfig)
@@ -101,7 +101,7 @@ set(INTERNAL_LIBS
         application
         signature
         physical_port
-        socket
+        ovsocket
         ovcrypto
         config
         ovlibrary
