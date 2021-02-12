@@ -10,8 +10,8 @@ add_library(${TARGET}
 
 target_include_directories(${TARGET}
         PRIVATE
-        ../../../projects
-        ../../../projects/third_party
+        ../../projects
+        ../../projects/third_party
         )
 
 set(ENV{PKG_CONFIG_PATH} /opt/ovenmediaengine/lib/pkgconfig)

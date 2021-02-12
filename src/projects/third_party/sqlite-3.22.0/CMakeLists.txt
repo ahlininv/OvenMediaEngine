@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 set ( TARGET sqlite )
-add_library(${TARGET}
+add_library(${TARGET} SHARED
         sqlite3.c
         shell.c
         )
@@ -30,6 +30,6 @@ target_link_directories(${TARGET} PUBLIC ${MY_SRT_LIBRARY_DIRS})
 target_include_directories(${TARGET} PUBLIC ${MY_SRT_INCLUDE_DIRS})
 
 target_compile_options(${TARGET}
-        PUBLIC -std=c11
+        PUBLIC -std=gnu11
         PRIVATE -Wfatal-errors
         )
