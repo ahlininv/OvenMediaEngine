@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.12)
+
+add_subdirectory(bitstream)
+add_subdirectory(containers)
+add_subdirectory(dtls_srtp)
+add_subdirectory(file)
+add_subdirectory(http_server)
+add_subdirectory(ice)
+add_subdirectory(mpegts)
+add_subdirectory(ovt_packetizer)
+add_subdirectory(physical_port)
+add_subdirectory(rtc_signalling)
+add_subdirectory(rtmp)
+add_subdirectory(rtp_rtcp)
+add_subdirectory(sdp)
+add_subdirectory(segment_writer)
+add_subdirectory(signature)
+
