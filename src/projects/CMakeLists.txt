@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(OvenMediaEngine )
+project(OvenMediaEngine)
+
+include(utils.cmake )
 
 add_subdirectory(base)
 add_subdirectory(api_server)
@@ -33,9 +35,6 @@ target_include_directories(${TARGET}
 
 set(ENV{PKG_CONFIG_PATH} /opt/ovenmediaengine/lib/pkgconfig)
 
-find_package(PkgConfig REQUIRED)
-message(STATUS PkgConfig_FOUND: ${PkgConfig_FOUND})
-
 set(LIBS_TO_LD
         srt
         libavformat
@@ -47,7 +46,6 @@ set(LIBS_TO_LD
         openssl
         vpx
         opus
-        libsrtp
         libsrtp2
         libpcre2-8
         )
@@ -56,16 +54,7 @@ find_package(PkgConfig REQUIRED)
 message(STATUS PkgConfig_FOUND: ${PkgConfig_FOUND})
 
 foreach(LIB ${LIBS_TO_LD})
-    message( STATUS TRY TO FIND:(${LIB}))
-    pkg_search_module(LIB_FOUND REQUIRED ${LIB})
-    message( STATUS LIB_FOUND ( ${LIB}):       ${LIB_FOUND})
-    message( STATUS PACKAGE_FOUND ( ${LIB}):       ${${LIB}_FOUND})
-    target_link_libraries(${TARGET}      PRIVATE ${${LIB}_LDFLAGS} )
-
-    target_link_directories(${TARGET}    PUBLIC  ${${LIB}_LIBRARY_DIRS} )
-
-    target_include_directories(${TARGET} PUBLIC  ${${LIB}_INCLUDE_DIRS} )
-
+    add_external_library(${LIB})
 endforeach()
 
 set(CMAKE_FIND_LIBRARY_PREFIXES "")
@@ -110,18 +99,22 @@ set(INTERNAL_LIBS
         sqlite
         file
         rtmp
+        provider
+        pugixml
+        mpegts_module
         )
 
-foreach(ILIB ${INTERNAL_LIBS})
-    message( STATUS TRY TO ADD INTERNAL:(${ILIB}))
-    target_link_libraries(${TARGET}      PRIVATE ${ILIB} )
+foreach(LIB ${INTERNAL_LIBS})
+    message( STATUS "link internal lib (${LIB})" )
+    target_link_libraries(${TARGET}      PUBLIC ${LIB} )
 endforeach()
-
-target_link_directories(${TARGET} PUBLIC ${MY_SRT_LIBRARY_DIRS})
-
-target_include_directories(${TARGET} PUBLIC ${MY_SRT_INCLUDE_DIRS})
 
 target_compile_options(${TARGET}
         PUBLIC -std=c++17
         PRIVATE -Wfatal-errors
+        )
+
+set_target_properties( ${TARGET}
+        PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "../../bin/DEBUG"
         )
