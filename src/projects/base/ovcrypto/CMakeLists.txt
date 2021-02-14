@@ -11,12 +11,7 @@ add_library(${TARGET}
         openssl/tls_data.cpp
         )
 
-target_include_directories(${TARGET}
-        PRIVATE
-        openssl
-        ../../../projects
-        ../../../projects/third_party
-        )
+include_common_dirs(${TARGET} "../../../")
 
 set(ENV{PKG_CONFIG_PATH} /opt/ovenmediaengine/lib/pkgconfig)
 
@@ -40,7 +35,4 @@ target_link_directories(${TARGET} PUBLIC ${MY_OPENSSL_LIBRARY_DIRS})
 
 target_include_directories(${TARGET} PUBLIC ${MY_OPENSSL_INCLUDE_DIRS})
 
-target_compile_options(${TARGET}
-        PUBLIC -std=c++17
-        PRIVATE -Wfatal-errors
-        )
+add_common_compile_options( ${TARGET} )

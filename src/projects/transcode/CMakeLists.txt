@@ -24,18 +24,11 @@ add_library(${TARGET}
         transcode_context.cpp
         )
 
-target_include_directories(${TARGET}
-        PRIVATE
-        ../../projects
-        ../../projects/third_party
-        )
+include_common_dirs(${TARGET} "../../")
 
 set(ENV{PKG_CONFIG_PATH} /opt/ovenmediaengine/lib/pkgconfig)
 
-add_external_library(srt)
-add_external_library(libavcodec)
+add_external_library(${TARGET} srt )
+add_external_library(${TARGET} libavcodec )
 
-target_compile_options(${TARGET}
-        PUBLIC -std=c++17
-        PRIVATE -Wfatal-errors
-        )
+add_common_compile_options( ${TARGET} )

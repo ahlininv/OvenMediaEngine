@@ -31,12 +31,7 @@ add_library(${TARGET}
         url.cpp
         )
 
-target_include_directories(${TARGET}
-        PRIVATE
-        ../../../projects
-        ../../../projects/third_party
-        )
-
+include_common_dirs(${TARGET} "../../../")
 set(ENV{PKG_CONFIG_PATH} /opt/ovenmediaengine/lib/pkgconfig)
 
 find_package(PkgConfig REQUIRED)
@@ -59,7 +54,4 @@ target_link_directories(${TARGET} PUBLIC ${MY_SRT_LIBRARY_DIRS})
 
 target_include_directories(${TARGET} PUBLIC ${MY_SRT_INCLUDE_DIRS})
 
-target_compile_options(${TARGET}
-        PUBLIC -std=c++17
-        PRIVATE -Wfatal-errors
-        )
+add_common_compile_options( ${TARGET} )

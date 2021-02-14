@@ -27,11 +27,7 @@ add_executable(${TARGET}
         main/main.cpp
         )
 
-target_include_directories(${TARGET}
-        PRIVATE
-        ../projects
-        ../projects/third_party
-        )
+include_common_dirs(${TARGET} "../")
 
 set(ENV{PKG_CONFIG_PATH} /opt/ovenmediaengine/lib/pkgconfig)
 
@@ -54,7 +50,7 @@ find_package(PkgConfig REQUIRED)
 message(STATUS PkgConfig_FOUND: ${PkgConfig_FOUND})
 
 foreach(LIB ${LIBS_TO_LD})
-    add_external_library(${LIB})
+    add_external_library(${TARGET} ${LIB} )
 endforeach()
 
 set(CMAKE_FIND_LIBRARY_PREFIXES "")
@@ -109,12 +105,14 @@ foreach(LIB ${INTERNAL_LIBS})
     target_link_libraries(${TARGET}      PUBLIC ${LIB} )
 endforeach()
 
+add_common_compile_options( ${TARGET} )
+
 target_compile_options(${TARGET}
-        PUBLIC -std=c++17
-        PRIVATE -Wfatal-errors
+        PUBLIC -Wl,rpath=/opt/ovenmediaengine/lib
         )
 
 set_target_properties( ${TARGET}
         PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "../../bin/DEBUG"
         )
+

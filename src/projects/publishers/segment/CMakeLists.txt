@@ -34,16 +34,8 @@ add_library(${TARGET}
         cmaf/cmaf_stream_packetizer.cpp
         )
 
-target_include_directories(${TARGET}
-        PRIVATE
-        ../../../projects
-        ../../../projects/third_party
-        )
-
+include_common_dirs(${TARGET} "../../../")
 set(ENV{PKG_CONFIG_PATH} /opt/ovenmediaengine/lib/pkgconfig)
 
-add_external_library(srt)
-target_compile_options(${TARGET}
-        PUBLIC -std=c++17
-        PRIVATE -Wfatal-errors
-        )
+add_external_library(${TARGET} srt )
+add_common_compile_options( ${TARGET} )
