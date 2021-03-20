@@ -23,7 +23,7 @@
 /*
 Process of publishing 
 
-- Handshakeing
+- Handshaking
  C->S : C0 + C1
  S->C : S0 + S1 + S2
  C->S : C2
